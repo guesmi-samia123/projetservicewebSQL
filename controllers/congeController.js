@@ -93,19 +93,44 @@ exports.demandeConge = (req, res) => {
 };
 
 exports.GetcongeNonVerifier = (req, res) => {
-  
+
     const etat_conge = 0;
     sql = `SELECT * from conge WHERE etat_conge = ${etat_conge}`;
     query.sql_request(sql, null, res, true);
-  };
+};
 
-  exports.Accepter = (req, res) => {
-  
+exports.Accepter = (req, res) => {
+    const {id_conge,  id_user, date_d, date_f, type_conge, duree } = req.body;
+    if (type_conge === "paye") {
+        var day1 = new Date(date_d);
+        var day2 = new Date(date_f);
+        const utc1 = Date.UTC(day1.getFullYear(), day1.getMonth(), day1.getDate());
+        const utc2 = Date.UTC(day2.getFullYear(), day2.getMonth(), day2.getDate());
+        const days = Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24))
+       // console.log(days)
+        // update etat conge 
+        
+        const sql = `UPDATE conge SET etat_conge=2 WHERE id_conge= ${id_conge}  `;
+        
+        query.sql_request(sql, res);
+        //update user
+        
+        
+
+        //send mail
+        
+    }
     
 
-  };
+    else if (type_conge === "maternale") { }
+    else if (type_conge === "paternale") { }
+    else if (type_conge === "rtt") { }
 
-  exports.refuser = (req, res) => {
-  
-    
-  };
+
+
+};
+
+exports.refuser = (req, res) => {
+    const sql = `UPDATE conge SET etat_conge=2 WHERE id_conge= ${id_conge}  `;
+
+};

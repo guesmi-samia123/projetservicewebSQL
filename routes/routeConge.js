@@ -7,6 +7,7 @@ router.get("/get_all",conge.getAllConge);
 router.get("/CongeNonVerif",conge.GetcongeNonVerifier);
 router.get("/get_congeUser/:id",conge.getCongeByUser);
 router.post("/demande_conge",conge.demandeConge);
+router.put("/Accepter_conge",conge.Accepter);
 
 
 module.exports=router;
