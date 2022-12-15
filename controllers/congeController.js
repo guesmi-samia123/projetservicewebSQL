@@ -143,6 +143,9 @@ exports.Accepter = (req, res) => {
 ;
 
 exports.refuser = (req, res) => {
-    const sql = `UPDATE conge SET etat_conge=2 WHERE id_conge= ${id_conge}  `;
+    const {id_conge } = req.body;
+    const sql = `UPDATE conge SET etat_conge=0 WHERE id_conge= ${id_conge} `;
+        
+        query.sql_request(sql, res);
 
 };
