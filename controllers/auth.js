@@ -5,10 +5,10 @@ const query = require("../database/db_query")
 
 exports.register = (req, res) => {
 
-  const { nom, prenom, age, tel, adr, email,password ,type_u } = req.body;
+  const { nom, prenom, password, email, sexe, type_user} = req.body;
   bcrypt.hash(password, 10, function (err, hash) {
-   const values = [[[nom, prenom, age, tel, adr, email, hash,type_u]]];
-    const sql = "INSERT INTO users (nom, prenom, age, tel, adr, email,password,type_u) VALUES ?";
+   const values = [[[nom, prenom, hash, email, sexe, type_user]]];
+    const sql = "INSERT INTO users (nom, prenom, password, email, sexe, type_user) VALUES ?";
      query.sql_request(sql, values, res);
   });
 };
@@ -16,6 +16,7 @@ exports.register = (req, res) => {
 exports.signin = (req, res) => {
   const { email, password } = req.body;
   let sql =  `SELECT DISTINCT * from users where email=? ` ;
+  
 
   dbClient.query(sql, [email], (err, rows) => {
     if (err) {
