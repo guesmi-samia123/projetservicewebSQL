@@ -107,28 +107,40 @@ exports.Accepter = (req, res) => {
         const utc1 = Date.UTC(day1.getFullYear(), day1.getMonth(), day1.getDate());
         const utc2 = Date.UTC(day2.getFullYear(), day2.getMonth(), day2.getDate());
         const days = Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24))
-       // console.log(days)
+        console.log(days)
         // update etat conge 
         
-        const sql = `UPDATE conge SET etat_conge=2 WHERE id_conge= ${id_conge}  `;
-        
-        query.sql_request(sql, res);
-        //update user
-        
-        
+        //const sql = `UPDATE conge SET etat_conge=2 WHERE id_conge= ${id_conge}  `;
 
-        //send mail
+       const sql = `UPDATE users u, conge c SET u.solde_conge=solde_conge - ${days} , c.etat_conge=2 WHERE c.id_conge= ${id_conge} and u.id_user= ${id_user}`;
         
+        query.sql_request(sql, res);     
+        //send mail  
     }
     
 
-    else if (type_conge === "maternale") { }
-    else if (type_conge === "paternale") { }
-    else if (type_conge === "rtt") { }
+    else if (type_conge === "maternale") {
+
+        const sql = `UPDATE users u, conge c SET u.etat_maternite=1 , c.etat_conge=2 WHERE c.id_conge= ${id_conge} and u.id_user= ${id_user}`;
+        
+        query.sql_request(sql, res);
+     }
+    else if (type_conge === "paternale") {
+        const sql = `UPDATE users u, conge c SET u.etat_paternite=1 , c.etat_conge=2 WHERE c.id_conge= ${id_conge} and u.id_user= ${id_user}`;
+        
+        query.sql_request(sql, res);
+     }
+    else if (type_conge === "rtt") { 
+        const sql = `UPDATE users u, conge c SET u.nbr_jours_rtt=nbr_jours_rtt-${duree}, c.etat_conge=2 WHERE c.id_conge= ${id_conge} and u.id_user= ${id_user}`;
+        
+        query.sql_request(sql, res);
+     }
+
+    }
 
 
 
-};
+;
 
 exports.refuser = (req, res) => {
     const sql = `UPDATE conge SET etat_conge=2 WHERE id_conge= ${id_conge}  `;
