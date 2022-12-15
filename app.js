@@ -5,6 +5,7 @@ const db = require("./database/dbconfig"); //connection db
 const cors = require("cors"); //blockage acces
 const auth = require("./routes/authRoute");
 const user = require("./routes/routeUser");
+const conge = require("./routes/routeConge");
 
 app.use(
   cors({
@@ -23,6 +24,7 @@ db.connect((error) => {
 
 app.use("/auth", auth);
 app.use("/user", user);
+app.use("/conge", conge);
 
 
 

@@ -9,3 +9,5 @@ exports.getOneUser = (req, res) => {
       
     query.sql_request(sql, null, res, true);
   };
+  
+
